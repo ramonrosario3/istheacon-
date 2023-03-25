@@ -3,5 +3,5 @@ This is a repository for the term project of group ... for the course INEL4206 M
 
 ### Team Members:
 - Luis A. Santiago
-- Mark A. Alvarez
+- Mark A. Alvarez Nieves mark.alvarez@upr.edu
 - Ramón J. Rosario Recci ramon.rosario3@upr.edu
