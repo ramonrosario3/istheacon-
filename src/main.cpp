@@ -4,8 +4,8 @@
 #include <WiFi.h>
 
 // WiFi parameters and Setup Function
-const char *SSID = "Rak"; // WiFi SSID
-const char *PWD = "rjrr1109"; // WiFi password
+const char *SSID = ""; // WiFi SSID
+const char *PWD = ""; // WiFi password
 
 float voltage_out;
 float temp; 
