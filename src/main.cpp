@@ -207,7 +207,7 @@ if (digitalRead(buttonPin) == HIGH) {
 
   char tempPubC[20];
   sprintf(tempPubC, "%.2f", temp_c);
-  mqttClient.publish("Celcius", tempPubC);
+  mqttClient.publish("Celsius", tempPubC);
 
   char tempPubF[20];
   sprintf(tempPubF, "%.2f", temp_f);
