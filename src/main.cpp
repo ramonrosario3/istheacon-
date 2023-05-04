@@ -150,11 +150,16 @@ void setup()
 
 void loop()
 {
-  if (!mqttClient.connected())
+  if (!mqttClient.connected()){
   reconnect();
   mqttClient.loop();
   digitalWrite(LED_BUILTIN, HIGH);
   delay(100);
+  }
+  else{
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(100);
+  }
 
   float sum = 0;
   float sensor_voltage;
