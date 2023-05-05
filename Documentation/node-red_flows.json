@@ -1,0 +1,971 @@
+[
+    {
+        "id": "322db706f5afff32",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "414a2d50ff3ebb0b",
+        "type": "ui_gauge",
+        "z": "322db706f5afff32",
+        "name": "",
+        "group": "9619b2025d583973",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Fahrenheit",
+        "label": "°F",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "150",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 710,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "30c5234a82d408cd",
+        "type": "debug",
+        "z": "322db706f5afff32",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 560,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "e203b8ee189f1349",
+        "type": "aedes broker",
+        "z": "322db706f5afff32",
+        "name": "Test Broker",
+        "mqtt_port": 1883,
+        "mqtt_ws_bind": "port",
+        "mqtt_ws_port": "",
+        "mqtt_ws_path": "",
+        "cert": "",
+        "key": "",
+        "certname": "",
+        "keyname": "",
+        "persistence_bind": "mongodb",
+        "dburl": "mongodb://localhost:27017/mqtt",
+        "usetls": false,
+        "x": 150,
+        "y": 60,
+        "wires": [
+            [],
+            []
+        ]
+    },
+    {
+        "id": "09048ffc59304759",
+        "type": "mqtt in",
+        "z": "322db706f5afff32",
+        "name": "",
+        "topic": "Fahrenheit",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c5aea80655034956",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 200,
+        "wires": [
+            [
+                "30c5234a82d408cd",
+                "3e23e11457010921",
+                "5f4f014806a7276d",
+                "ce5d8674d066ec83"
+            ]
+        ]
+    },
+    {
+        "id": "3e23e11457010921",
+        "type": "mongodb out",
+        "z": "322db706f5afff32",
+        "mongodb": "8ad6fc36e6ee04a2",
+        "name": "mongodb out",
+        "collection": "incoming",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 370,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "fca6abf4cda05ad5",
+        "type": "http response",
+        "z": "322db706f5afff32",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 940,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "89252e63d85e720e",
+        "type": "http in",
+        "z": "322db706f5afff32",
+        "name": "HelloF",
+        "url": "/hellof",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 640,
+        "wires": [
+            [
+                "50d0beaa051bd96a",
+                "3fe30480629f4956"
+            ]
+        ]
+    },
+    {
+        "id": "69b9906607a9b1d8",
+        "type": "mqtt out",
+        "z": "322db706f5afff32",
+        "name": "",
+        "topic": "Calibration",
+        "qos": "",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "c5aea80655034956",
+        "x": 1090,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "50d0beaa051bd96a",
+        "type": "debug",
+        "z": "322db706f5afff32",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 400,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "721e2ca1b32291fe",
+        "type": "mongodb in",
+        "z": "322db706f5afff32",
+        "mongodb": "8ad6fc36e6ee04a2",
+        "name": "MQTT",
+        "collection": "incoming",
+        "operation": "find",
+        "x": 590,
+        "y": 640,
+        "wires": [
+            [
+                "f213b5c5f95ad870",
+                "c16e63be6e40cc7f"
+            ]
+        ]
+    },
+    {
+        "id": "3fe30480629f4956",
+        "type": "function",
+        "z": "322db706f5afff32",
+        "name": "function 1",
+        "func": "\nvar room = msg.payload.room;\nmsg.payload = { \"payload.room\": room }\nmsg.sort = { _id: -1 }\nmsg.limit = 1\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 640,
+        "wires": [
+            [
+                "721e2ca1b32291fe",
+                "1218b804c5ee4276"
+            ]
+        ]
+    },
+    {
+        "id": "f213b5c5f95ad870",
+        "type": "function",
+        "z": "322db706f5afff32",
+        "name": "function 2",
+        "func": "if (msg.payload.length == 0) {\n    msg.payload = \"NO\"\n    return msg;\n}\nvar temp = msg.payload[0].payload\nvar isOn = \"off\"\nif (temp > 75) { isOn = \"off\" }\nelse { isOn = \"on\" }\nmsg.payload = \" The A/C  is \"+isOn+\" and the current temperature in the room is \" + temp + \" degrees F\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 640,
+        "wires": [
+            [
+                "fca6abf4cda05ad5",
+                "c16e63be6e40cc7f"
+            ]
+        ]
+    },
+    {
+        "id": "5e722a0104915ad2",
+        "type": "mqtt in",
+        "z": "322db706f5afff32",
+        "name": "",
+        "topic": "Celsius",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "c5aea80655034956",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 420,
+        "wires": [
+            [
+                "6de984c8897e2430",
+                "c6661c43d2dc1f0a",
+                "9eeea5403d78798b"
+            ]
+        ]
+    },
+    {
+        "id": "2a8768fe96d1e4b7",
+        "type": "function",
+        "z": "322db706f5afff32",
+        "name": "function 3",
+        "func": "var foo = msg.payload\nmsg.payload = \"\"\nmsg.payload = foo.temp\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 280,
+        "wires": [
+            [
+                "414a2d50ff3ebb0b",
+                "55147e41effa41fd"
+            ]
+        ]
+    },
+    {
+        "id": "81984414574149e7",
+        "type": "debug",
+        "z": "322db706f5afff32",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "c16e63be6e40cc7f",
+        "type": "debug",
+        "z": "322db706f5afff32",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 880,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "b859e5ecece6a7bb",
+        "type": "ui_text_input",
+        "z": "322db706f5afff32",
+        "name": "",
+        "label": "Enter Calibration Temperature in °C",
+        "tooltip": "",
+        "group": "4a01541994dbbba1",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "mode": "text",
+        "delay": "0",
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 780,
+        "y": 100,
+        "wires": [
+            [
+                "69b9906607a9b1d8",
+                "81984414574149e7"
+            ]
+        ]
+    },
+    {
+        "id": "1218b804c5ee4276",
+        "type": "debug",
+        "z": "322db706f5afff32",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "5f4f014806a7276d",
+        "type": "template",
+        "z": "322db706f5afff32",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{ \"temp\":{{payload}} }",
+        "output": "json",
+        "x": 360,
+        "y": 280,
+        "wires": [
+            [
+                "2a8768fe96d1e4b7"
+            ]
+        ]
+    },
+    {
+        "id": "990f401d04ccc621",
+        "type": "function",
+        "z": "322db706f5afff32",
+        "name": "function 5",
+        "func": "var foo = msg.payload\nmsg.payload = \"\"\nmsg.payload = foo.temp\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 500,
+        "wires": [
+            [
+                "e6b0017ea3aee522",
+                "b41fdb1da1eab861"
+            ]
+        ]
+    },
+    {
+        "id": "e6b0017ea3aee522",
+        "type": "ui_gauge",
+        "z": "322db706f5afff32",
+        "name": "",
+        "group": "02fa1a6c5a944de6",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Celsius",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "150",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 700,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "b41fdb1da1eab861",
+        "type": "ui_chart",
+        "z": "322db706f5afff32",
+        "name": "",
+        "group": "02fa1a6c5a944de6",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "label": "Temp over Time",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 720,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c6661c43d2dc1f0a",
+        "type": "debug",
+        "z": "322db706f5afff32",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "6de984c8897e2430",
+        "type": "mongodb out",
+        "z": "322db706f5afff32",
+        "mongodb": "8ad6fc36e6ee04a2",
+        "name": "",
+        "collection": "celsius",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 410,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "55147e41effa41fd",
+        "type": "ui_chart",
+        "z": "322db706f5afff32",
+        "name": "",
+        "group": "9619b2025d583973",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "label": "Temp over Time",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "150",
+        "removeOlder": 1,
+        "removeOlderPoints": "",
+        "removeOlderUnit": "3600",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 720,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ce5d8674d066ec83",
+        "type": "mongodb out",
+        "z": "322db706f5afff32",
+        "mongodb": "8ad6fc36e6ee04a2",
+        "name": "",
+        "collection": "fahrenheit",
+        "payonly": false,
+        "upsert": false,
+        "multi": false,
+        "operation": "store",
+        "x": 420,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "9eeea5403d78798b",
+        "type": "template",
+        "z": "322db706f5afff32",
+        "name": "",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "{ \"temp\":{{payload}} }",
+        "output": "json",
+        "x": 360,
+        "y": 500,
+        "wires": [
+            [
+                "990f401d04ccc621"
+            ]
+        ]
+    },
+    {
+        "id": "f16e577afd4ace5b",
+        "type": "http response",
+        "z": "322db706f5afff32",
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 940,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "8c0260aae3d235f1",
+        "type": "http in",
+        "z": "322db706f5afff32",
+        "name": "HelloC",
+        "url": "/helloc",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 210,
+        "y": 800,
+        "wires": [
+            [
+                "fcfc14221d90dc53"
+            ]
+        ]
+    },
+    {
+        "id": "ef0d07117d7d7f78",
+        "type": "mongodb in",
+        "z": "322db706f5afff32",
+        "mongodb": "8ad6fc36e6ee04a2",
+        "name": "MQTT",
+        "collection": "celsius",
+        "operation": "find",
+        "x": 590,
+        "y": 800,
+        "wires": [
+            [
+                "09d22ccace4c1f18"
+            ]
+        ]
+    },
+    {
+        "id": "fcfc14221d90dc53",
+        "type": "function",
+        "z": "322db706f5afff32",
+        "name": "function 8",
+        "func": "\nvar room = msg.payload.room;\nmsg.payload = { \"payload.room\": room }\nmsg.sort = { _id: -1 }\nmsg.limit = 1\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 800,
+        "wires": [
+            [
+                "ef0d07117d7d7f78"
+            ]
+        ]
+    },
+    {
+        "id": "09d22ccace4c1f18",
+        "type": "function",
+        "z": "322db706f5afff32",
+        "name": "function 9",
+        "func": "if (msg.payload.length == 0) {\n    msg.payload = \"NO\"\n    return msg;\n}\nvar temp = msg.payload[0].payload\nvar isOn = \"off\"\nif (temp > 24) { isOn = \"off\" }\nelse { isOn = \"on\" }\nmsg.payload = \" The A/C  is \"+isOn+\" and the current temperature in the room is \" + temp + \" degrees C\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 800,
+        "wires": [
+            [
+                "f16e577afd4ace5b"
+            ]
+        ]
+    },
+    {
+        "id": "de44679858eb6f97",
+        "type": "ui_ui_control",
+        "z": "322db706f5afff32",
+        "name": "",
+        "events": "all",
+        "x": 1240,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "ea7bd3eb6de11472",
+        "type": "ui_button",
+        "z": "322db706f5afff32",
+        "name": "",
+        "group": "02fa1a6c5a944de6",
+        "order": 2,
+        "width": 2,
+        "height": 2,
+        "passthru": false,
+        "label": "F",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"Default_Celsius\"],\"show\":[\"Default_Fahrenheit\"]}}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 970,
+        "y": 240,
+        "wires": [
+            [
+                "de44679858eb6f97"
+            ]
+        ]
+    },
+    {
+        "id": "5d67d759b79751e6",
+        "type": "ui_button",
+        "z": "322db706f5afff32",
+        "name": "",
+        "group": "9619b2025d583973",
+        "order": 2,
+        "width": 2,
+        "height": 2,
+        "passthru": false,
+        "label": "C",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"Default_Fahrenheit\",\"Default_ButtonC\"],\"show\":[\"Default_Celsius\",\"Default_ButtonF\"]}}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1150,
+        "y": 280,
+        "wires": [
+            [
+                "de44679858eb6f97"
+            ]
+        ]
+    },
+    {
+        "id": "132dc6906fc4128f",
+        "type": "ui_button",
+        "z": "322db706f5afff32",
+        "name": "",
+        "group": "47849947907db2f9",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Calibrate",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"Default_CalibrateButton\"],\"show\":[\"Default_Calibration\"]}}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 960,
+        "y": 340,
+        "wires": [
+            [
+                "de44679858eb6f97"
+            ]
+        ]
+    },
+    {
+        "id": "036d9c382dd67a78",
+        "type": "ui_button",
+        "z": "322db706f5afff32",
+        "name": "",
+        "group": "4a01541994dbbba1",
+        "order": 3,
+        "width": 4,
+        "height": 1,
+        "passthru": false,
+        "label": "Close",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "{\"group\":{\"hide\":[\"Default_Calibration\"],\"show\":[\"Default_CalibrateButton\"]}}",
+        "payloadType": "json",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1090,
+        "y": 420,
+        "wires": [
+            [
+                "de44679858eb6f97"
+            ]
+        ]
+    },
+    {
+        "id": "0fbd2799adf712a0",
+        "type": "ui_spacer",
+        "z": "322db706f5afff32",
+        "name": "spacer",
+        "group": "4a01541994dbbba1",
+        "order": 2,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "4e8432c5193326c9",
+        "type": "ui_spacer",
+        "z": "322db706f5afff32",
+        "name": "spacer",
+        "group": "4a01541994dbbba1",
+        "order": 4,
+        "width": 1,
+        "height": 1
+    },
+    {
+        "id": "d0a2b6f257a5191e",
+        "type": "ui_spacer",
+        "z": "322db706f5afff32",
+        "name": "spacer",
+        "group": "02fa1a6c5a944de6",
+        "order": 1,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "981155a68ae23023",
+        "type": "ui_spacer",
+        "z": "322db706f5afff32",
+        "name": "spacer",
+        "group": "02fa1a6c5a944de6",
+        "order": 3,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "95c2d4ac0a62e29b",
+        "type": "ui_spacer",
+        "z": "322db706f5afff32",
+        "name": "spacer",
+        "group": "02fa1a6c5a944de6",
+        "order": 4,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "dbb1292e04f542d8",
+        "type": "ui_spacer",
+        "z": "322db706f5afff32",
+        "name": "spacer",
+        "group": "02fa1a6c5a944de6",
+        "order": 5,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "5dda2a0d033b116d",
+        "type": "ui_spacer",
+        "z": "322db706f5afff32",
+        "name": "spacer",
+        "group": "9619b2025d583973",
+        "order": 1,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "651b3c7c69a8aa5b",
+        "type": "ui_spacer",
+        "z": "322db706f5afff32",
+        "name": "spacer",
+        "group": "9619b2025d583973",
+        "order": 3,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "a96c008d5c3a10b6",
+        "type": "ui_spacer",
+        "z": "322db706f5afff32",
+        "name": "spacer",
+        "group": "9619b2025d583973",
+        "order": 4,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "53bf4cae62d18cee",
+        "type": "ui_spacer",
+        "z": "322db706f5afff32",
+        "name": "spacer",
+        "group": "9619b2025d583973",
+        "order": 5,
+        "width": 5,
+        "height": 1
+    },
+    {
+        "id": "9619b2025d583973",
+        "type": "ui_group",
+        "name": "Fahrenheit",
+        "tab": "239a19c0aa9d9521",
+        "order": 4,
+        "disp": false,
+        "width": 12,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c5aea80655034956",
+        "type": "mqtt-broker",
+        "name": "CelTemp",
+        "broker": "whatac.space",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "8ad6fc36e6ee04a2",
+        "type": "mongodb",
+        "hostname": "127.0.0.1",
+        "topology": "direct",
+        "connectOptions": "",
+        "port": "27017",
+        "db": "mqtt",
+        "name": ""
+    },
+    {
+        "id": "4a01541994dbbba1",
+        "type": "ui_group",
+        "name": "Calibration",
+        "tab": "239a19c0aa9d9521",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "02fa1a6c5a944de6",
+        "type": "ui_group",
+        "name": "Celsius",
+        "tab": "239a19c0aa9d9521",
+        "order": 3,
+        "disp": false,
+        "width": 12,
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "47849947907db2f9",
+        "type": "ui_group",
+        "name": "CalibrateButton",
+        "tab": "239a19c0aa9d9521",
+        "order": 2,
+        "disp": false,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "239a19c0aa9d9521",
+        "type": "ui_tab",
+        "name": "Default",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
